@@ -15,7 +15,8 @@
      */
     var actions = {
         _hash:{},
-        _uidIndex:0
+        _uidIndex:0,
+        version:'1.0.0'
     };
 
     /**
