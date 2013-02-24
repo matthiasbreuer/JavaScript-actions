@@ -1,5 +1,5 @@
 /**
- * @license Copyright (C) 2012 Matthias Breuer (matthiasbreuer.com)
+ * @license Copyright (C) 2013 Matthias Breuer (matthiasbreuer.com)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
  *
@@ -16,7 +16,8 @@
     var actions = {
         _hash:{},
         _uidIndex:0,
-        version:'1.0.0'
+        debug:false,
+        version:'1.0.1'
     };
 
     /**
@@ -55,7 +56,7 @@
      */
     actions.doAction = function (ident) {
         ident = actions._split(ident);
-        console.log(ident.ns + ':' + ident.name, arguments);
+        actions.log(ident.ns + ':' + ident.name, arguments);
         if (actions._hash[ident.ns] && actions._hash[ident.ns][ident.name]) {
             var items = actions._hash[ident.ns][ident.name];
             var args = Array.prototype.slice.call(arguments).splice(1);
@@ -70,7 +71,7 @@
                         actions.removeAction(ident, item.id);
                     }
                 } catch (e) {
-                    console.log(e.message);
+                    actions.log(e.message);
                     actions.removeAction(ident, item.id);
                 }
             }
@@ -178,6 +179,16 @@
         }
         return false;
     };
+
+    /**
+     * Tries to log using console.log. Logging is enabled/disabled by setting actions.debug
+     * @param args
+     */
+    actions.log = function (args) {
+        if (actions.debug && console) {
+            console.log(args)
+        }
+    }
 
     root.actions = actions;
 }(this));
